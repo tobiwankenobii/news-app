@@ -2,8 +2,7 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font"
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Card from "./src/components/Card";
-import Header from "./src/components/Header";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 const loadFonts = () => {
     return Font.loadAsync({
@@ -25,10 +24,7 @@ export default function App() {
     }
 
     return (
-        <View>
-            <Header/>
-            <Card/>
-        </View>
+        <AppNavigator/>
     );
 }
 

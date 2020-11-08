@@ -1,19 +1,23 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons"
 
-const Card = () => {
+const Card = (props: any) => {
     return (
-        <View style={styles.card}>
-            <View style={styles.imageContainer}>
-                <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/6/67/Fox_News_Channel_logo.svg'}} style={styles.image}/>
+        <TouchableOpacity onPress={() => props.navigation.navigate('NewsDetails')}>
+            <View style={styles.card}>
+                <View style={styles.imageContainer}>
+                    <Image source={{uri: '...'}} style={styles.image}/>
+                </View>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Title</Text>
+                    <MaterialIcons name="favorite-border" size={24}/>
+                </View>
+                <View style={styles.descriptionContainer}>
+                    <Text style={styles.description}>Description</Text>
+                </View>
             </View>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Title</Text>
-            </View>
-            <View style={styles.descriptionContainer}>
-                <Text style={styles.description}>Description</Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -38,7 +42,11 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         height: '10%',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10
     },
     title: {
         fontFamily: 'OpenSansBold',
