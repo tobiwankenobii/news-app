@@ -1,20 +1,46 @@
 import React from "react";
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons"
+import { useDispatch, useSelector } from "react-redux";
+import { Favourite } from "../interfaces/Favourite";
+import * as newsAction from '../redux/actions/newsAction';
 
 const Card = (props: any) => {
+    const dispatch = useDispatch();
+    const isFav = useSelector(
+        (state: { news: { favourites: Favourite[]; }; }) =>
+            state.news.favourites.some(article => article.url === props.url)
+    );
+
     return (
-        <TouchableOpacity onPress={() => props.navigation.navigate('NewsDetails')}>
+        <TouchableOpacity onPress={() => {
+            props.navigation.navigate('NewsDetails', {
+                articleUrl: props.url
+            })
+        }}>
             <View style={styles.card}>
                 <View style={styles.imageContainer}>
-                    <Image source={{uri: '...'}} style={styles.image}/>
+                    <Image
+                        source={{uri: props.image ? props.image : 'https://user-images.githubusercontent.com/16916934/27370350-c82d1c44-5679-11e7-9147-2e8adeb4c515.png'}}
+                        style={styles.image}
+                    />
                 </View>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Title</Text>
-                    <MaterialIcons name="favorite-border" size={24}/>
+                    <Text style={styles.title}>
+                        {props.title && props.title.length > 22 ? props.title.slice(0, 22) + '...' : props.title}
+                    </Text>
+                    <MaterialIcons
+                        name={isFav ? 'favorite' : 'favorite-border'}
+                        color="#72bcd4" size={24}
+                        onPress={() => {
+                            dispatch(newsAction.toggleFavorites(props.url))
+                        }}
+                    />
                 </View>
                 <View style={styles.descriptionContainer}>
-                    <Text style={styles.description}>Description</Text>
+                    <Text style={styles.description}>
+                        {props.description && props.description.length > 100 ? props.description.slice(0, 100) + '...' : props.description}
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
