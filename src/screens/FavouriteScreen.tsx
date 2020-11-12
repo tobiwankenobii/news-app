@@ -1,12 +1,27 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React from 'react';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
+import { Favourite } from "../interfaces/Favourite";
+import Card from '../components/Card';
 
-const FavouriteScreen = () => {
+const FavouritesScreen = (props: { navigation: any; }) => {
+    const favourites = useSelector((state: { news: { favourites: Favourite[]; }; }) => state.news.favourites);
+
     return (
-        <View>
-            <Text>Favorite</Text>
-        </View>
+        <FlatList
+            data={favourites}
+            keyExtractor={item => item.url}
+            renderItem={({item}) => (
+                <Card
+                    navigation={props.navigation}
+                    title={item.title}
+                    image={item.urlToImage}
+                    description={item.description}
+                    url={item.url}
+                />
+            )}
+        />
     );
 }
 
-export default FavouriteScreen;
+export default FavouritesScreen;
